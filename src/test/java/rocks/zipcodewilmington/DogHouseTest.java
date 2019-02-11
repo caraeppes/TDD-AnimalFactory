@@ -1,5 +1,6 @@
 package rocks.zipcodewilmington;
 
+import org.junit.Assert;
 import org.junit.Test;
 import rocks.zipcodewilmington.animals.Dog;
 import rocks.zipcodewilmington.animals.animal_creation.AnimalFactory;
@@ -18,17 +19,84 @@ public class DogHouseTest {
     // TODO - Create tests for `Integer getNumberOfDogs()`
 
     @Test
-    public void testGetNumberOfDogs() {
-        // Given (some
-        String name = "Milo";
-        Date birthDate = new Date();
-        Dog animal = AnimalFactory.createDog(name, birthDate);
+    public void AddDogTest(){
+
+        // Given
+        Dog d = new Dog("Puffy Fluffy", new Date(), 1);
+
+        // When
+        DogHouse.add(d);
+
+        // Then
+        Assert.assertEquals(d, DogHouse.getDogById(1));
+    }
+
+    @Test
+    public void RemoveDogTest(){
+
+        // Given
+        Dog d = new Dog("Puffy Fluffy", new Date(), 12);
+        DogHouse.add(d);
+
+        // When
+        DogHouse.remove(d);
+
+        // Then
+        Assert.assertEquals(null, DogHouse.getDogById(12));
+
+    }
+
+    @Test
+    public void RemoveDogWithIdTest(){
+
+        // Given
+        Dog d = new Dog("Puffy Fluffy", new Date(), 1234);
+        DogHouse.add(d);
+
+        // When
+        DogHouse.remove(1234);
+
+        // Then
+        Assert.assertEquals(null, DogHouse.getDogById(1234));
+
+    }
+
+    @Test
+    public void GetDogByIdTest(){
+
+        // Given
+        Integer id = 1234;
+        Dog d = new Dog("Puffy Fluffy", new Date(), 1234);
+        DogHouse.add(d);
+
+        // When
+        Dog d2 = DogHouse.getDogById(id);
+
+        // Then
+        Assert.assertEquals(id, d2.getId());
+
+    }
+
+    @Test
+    public void GetNumberOfDogsTest(){
+
+        // Given
+        Dog d = new Dog("Puffy Fluffy", new Date(), 1234);
         DogHouse.clear();
 
         // When
-        DogHouse.add(animal);
+        Integer numDogs = DogHouse.getNumberOfDogs();
 
         // Then
-        DogHouse.getNumberOfDogs();
+        Assert.assertEquals(new Integer(0), numDogs);
+
+        // When
+        DogHouse.add(d);
+        DogHouse.add(d);
+        numDogs = DogHouse.getNumberOfDogs();
+
+        // Then
+        Assert.assertEquals(new Integer(2), numDogs);
     }
+
 }
